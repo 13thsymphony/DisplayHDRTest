@@ -3830,21 +3830,57 @@ void Game::GenerateTestPattern_FullFrameSDRWhite(ID2D1DeviceContext2 * ctx)
     if (m_newTestSelected) SetMetadataNeutral();
 
     // Overload the color selector to allow selecting the desired SDR white level.
-    float nits = 80.0f;
+    float nits = 40.0f;
     switch (m_currentColor)
     {
-    case 0:
-        nits = 80.0f;
-        break;
-    case 1:
-        nits = 160.0f;
-        break;
-    case 2:
-        nits = 240.0f;
-        break;
-    case 3:
-        nits = 320.0f;
-        break;
+	case 0:
+		nits = 0.0000f;
+		break;
+	case 1:
+		nits = 1.6816f;
+		break;
+	case 2:
+		nits = 4.7989f;
+		break;
+	case 3:
+		nits = 9.9314f;
+		break;
+	case 4:
+		nits = 17.3416f;
+		break;
+	case 5:
+		nits = 27.2525f;
+		break;
+	case 6:
+		nits = 39.8605f;
+		break;
+	case 7:
+		nits = 55.3425f;
+		break;
+	case 8:
+		nits = 73.8604f;
+		break;
+	case 9:
+		nits = 95.5640f;
+		break;
+	case 10:
+		nits = 120.5933f;
+		break;
+	case 11:
+		nits = 149.0799f;
+		break;
+	case 12:
+		nits = 181.1482f;
+		break;
+	case 13:
+		nits = 216.9165f;
+		break;
+	case 14:
+		nits = 256.4978f;
+		break;
+	case 15:
+		nits = 300.0000f;
+		break;
     default:
         DX::ThrowIfFailed(E_INVALIDARG);
         break;
@@ -4600,7 +4636,6 @@ void Game::ChangeSubtest(bool increment)
 	case TestPattern::ColorPatches10:
 	case TestPattern::ColorPatchesMAX:
 	case TestPattern::ColorPatches709:
-	case TestPattern::FullFrameSDRWhite:
 	case TestPattern::FullFrameSDRWhiteWithHDR:
 	case TestPattern::SharpeningFilter:
 	case TestPattern::ToneMapSpike:
@@ -4617,6 +4652,22 @@ void Game::ChangeSubtest(bool increment)
 				m_currentColor = 3;
 		}
 		m_currentColor = m_currentColor % 4;
+		break;
+
+	case TestPattern::FullFrameSDRWhite:
+		if (increment)
+		{
+			m_currentColor++;
+			if (m_currentColor > 15)
+				m_currentColor = 0;
+		}
+		else
+		{
+			m_currentColor--;
+			if (m_currentColor < 0)
+				m_currentColor = 15;
+		}
+		m_currentColor = m_currentColor % 16;
 		break;
 
 	case TestPattern::ProfileCurve:
