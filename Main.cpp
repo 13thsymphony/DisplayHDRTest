@@ -29,7 +29,7 @@ SYSTEMTIME GetExpiryTime();
 LONG g_wndStyle = WS_OVERLAPPEDWINDOW;
 RECT g_wndRect = {};
 bool g_fullscreen = false;
-const PWSTR g_appTitle = L"VESA DisplayHDR Compliance Tests";
+const PWSTR g_appTitle = L"Auto Color Management (WCG) test app";
 
 // Indicates to hybrid graphics systems to prefer the discrete part by default
 extern "C"

@@ -76,9 +76,18 @@ public:
 	enum class TestPattern
 	{
 		StartOfTest, // Must always be first.
-		ConnectionProperties,
 		PanelCharacteristics,
-		ResetInstructions,
+		ColorPatches,               // 6. 100% OPR
+		BitDepthPrecision,          // 7. Uses custom effect.
+        ColorPatches709,
+        StaticGradient,
+        AnimatedGrayGradient,
+        AnimatedColorGradient,
+		EndOfTest, // Must always be last.
+        Cooldown,
+
+        ConnectionProperties,
+        ResetInstructions,
         PQLevelsInNits,
         WarmUp,
         TenPercentPeak,             // 1.
@@ -87,37 +96,29 @@ public:
         FlashTestMAX,               // 2. MAX
         LongDurationWhite,          // 3.
         FullFramePeak,              // 3. MAX
-		DualCornerBox,				// 4. Total contrast test for TrueBlack
-		StaticContrastRatio,		// 5. was tunnel
-		ActiveDimming,				// 5.1
-		ActiveDimmingDark,			// 5.2
-		ActiveDimmingSplit,			// 5.3
-		ColorPatches10,             // 6.  10% OPR
-		ColorPatches,               // 6. 100% OPR
-		BitDepthPrecision,          // 7. Uses custom effect.
+        DualCornerBox,				// 4. Total contrast test for TrueBlack
+        StaticContrastRatio,		// 5. was tunnel
+        ActiveDimming,				// 5.1
+        ActiveDimmingDark,			// 5.2
+        ActiveDimmingSplit,			// 5.3
+        ColorPatches10,             // 6.  10% OPR
         RiseFallTime,               // 8.
-		ProfileCurve,               // 9. Validate tracking of 2084 profile
-		EndOfMandatoryTests,        // 
+        ProfileCurve,               // 9. Validate tracking of 2084 profile
+        EndOfMandatoryTests,        // 
         SharpeningFilter,           // Uses custom Sine Sweep effect.
-		ToneMapSpike,				// Uses custom Tone Spike effect
+        ToneMapSpike,				// Uses custom Tone Spike effect
         TextQuality,                // Uses image.
         //PQLevelsInNitsDynamic,
         OnePixelLinesBW,            // Uses image.
         OnePixelLinesRG,            // Uses image.
-        ColorPatches709,
         FullFrameSDRWhite,
         FullFrameSDRWhiteWithHDR,
-		CalibrateMaxEffectiveValue,		// max value to send that has any effect
-		CalibrateMaxEffectiveFullFrameValue,	// MaxFALL after tone mapping
-		CalibrateMinEffectiveValue,		// minimal value that is still visible by user
-        StaticGradient,
-        AnimatedGrayGradient,
-        AnimatedColorGradient,
-		BlackLevelHdrCorners,       // 4.
-		BlackLevelSdrTunnel,        // 5. Tunnel test Moved here from v1.0. Replaced with StaticContrastRatio in v1.1
-		ColorPatchesMAX,            // 6. MAX
-		EndOfTest, // Must always be last.
-        Cooldown,
+        CalibrateMaxEffectiveValue,		// max value to send that has any effect
+        CalibrateMaxEffectiveFullFrameValue,	// MaxFALL after tone mapping
+        CalibrateMinEffectiveValue,		// minimal value that is still visible by user
+        BlackLevelHdrCorners,       // 4.
+        BlackLevelSdrTunnel,        // 5. Tunnel test Moved here from v1.0. Replaced with StaticContrastRatio in v1.1
+        ColorPatchesMAX,            // 6. MAX
     };
 
     // Initialization and management

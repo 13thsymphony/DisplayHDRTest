@@ -632,7 +632,7 @@ void Game::PrintMetadata( ID2D1DeviceContext2* ctx, bool blackText /* = false */
 		break;
 	}
 
-	RenderText(ctx, m_largeFormat.Get(), text.str(), m_MetadataTextRect, blackText);
+	//RenderText(ctx, m_largeFormat.Get(), text.str(), m_MetadataTextRect, blackText);
 }
 
 void Game::GenerateTestPattern_StartOfTest(ID2D1DeviceContext2* ctx)
@@ -642,18 +642,15 @@ void Game::GenerateTestPattern_StartOfTest(ID2D1DeviceContext2* ctx)
 
     if (m_newTestSelected) SetMetadataNeutral();
 
-    text << m_appTitle;
-    text << L"\n\nVersion 1.10\n\n";
+    text << m_appTitle << L"\n";
     //text << L"ALT-ENTER: Toggle fullscreen: all measurements should be made in fullscreen\n";
 	text << L"->, PAGE DN:       Move to next test\n";
 	text << L"<-, PAGE UP:        Move to previous test\n";
-    text << L"NUMBER KEY:	Jump to test number\n";
     text << L"SPACE:		Hide text and target circle\n";
-    text << L"C:		Start 60s cool-down\n";
     text << L"ALT-ENTER:	Toggle fullscreen\n";
     text << L"ESCAPE:		Exit fullscreen\n";
     text << L"ALT-F4:		Exit app\n";
-    text << L"\nCopyright © VESA\nLast updated: " << __DATE__;
+    text << L"\nLast updated: " << __DATE__;
 
     RenderText(ctx, m_largeFormat.Get(), text.str(), m_largeTextRect);
 
@@ -786,43 +783,12 @@ void Game::GenerateTestPattern_PanelCharacteristics(ID2D1DeviceContext2* ctx)
     std::wstringstream text;
 	text << fixed << setw(9) << setprecision(2);
 
-	// TODO: ensure these values are up to date.
-	if (CheckForDefaults())
-	{
-		text << L"***WARNING: These are OS-provided defaults. Display did not provide any data.***\n";
-	}
-	// else
-	{
-		text << L"\nHDR Testing Tier: " << GetTierName(m_testingTier);
-		text << L" - Change using Up/Down Arrow Keys" << L"\n";
-	}
-	
-	
-	//	text << m_outputDesc.DeviceName;
+	text << L"\n\nConnection to: ";
+	WCHAR* DisplayName = wcsrchr(m_outputDesc.DeviceName, '\\');
+	text << ++DisplayName;
 
-	text << L"\nBase Levels:";
-    text << L"\n  Max peak luminance:          ";
-    text << m_rawOutDesc.MaxLuminance;
-    text << L"\n  Max frame-average luminance: ";
-    text << m_rawOutDesc.MaxFullFrameLuminance;
-	text << L"\n  Min luminance:                 ";
-	text << setprecision(5);
-	text << m_rawOutDesc.MinLuminance;
-	text << L"\nAdjusted Levels:";
-	text << L"\n  Max peak luminance:          ";
-	text << setprecision(2);
-	text << m_outputDesc.MaxLuminance;
-	text << L"\n  Max frame-average luminance: ";
-	text << m_outputDesc.MaxFullFrameLuminance;
-	text << L"\n  Min luminance:                 ";
-	text << setprecision(5);
-	text << m_outputDesc.MinLuminance;
-	text << L"\nCurr. Brightness Slider Factor:  ";
-	text << BRIGHTNESS_SLIDER_FACTOR;
-
-//  text << L"\nContrast ratio (peak/min):   ";
-//  text << std::to_wstring(m_outputDesc.MaxLuminance / m_outputDesc.MinLuminance );
-    text << L"\n";
+	text << L"\n\nConnection bit depth: ";
+	text << std::to_wstring(m_outputDesc.BitsPerColor);
 
     // Compute area of this device's gamut in uv coordinates
 
