@@ -4001,6 +4001,16 @@ void Game::Render()
 
     ctx->BeginDraw();
 
+    ctx->PushLayer(D2D1::LayerParameters1(
+        D2D1::InfiniteRect(),
+        nullptr,
+        D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+        D2D1::IdentityMatrix(),
+        0.2f,
+        nullptr,
+        D2D1_LAYER_OPTIONS1_NONE),
+        nullptr);
+
     // Do test pattern-specific rendering here.
     // RenderD2D() handles all operations that are common to all test patterns:
     // 1. BeginDraw/EndDraw
@@ -4136,6 +4146,8 @@ void Game::Render()
         DX::ThrowIfFailed(E_NOTIMPL);
         break;
     }
+
+	ctx->PopLayer();
 
     // Ignore D2DERR_RECREATE_TARGET here. This error indicates that the device
     // is lost. It will be handled during the next call to Present.
