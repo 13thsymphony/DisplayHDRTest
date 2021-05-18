@@ -66,6 +66,7 @@ void Game::ConstructorInternal()
 	m_totalTime = 0;
     m_showExplanatoryText = true;
     m_gamutVolume = 0.0f;
+	m_useSdrSignaling = false;
 
 //	These are sRGB code values for HDR10:
 	m_maxEffectivesRGBValue = -1;	// not set yet
@@ -719,12 +720,6 @@ void Game::GenerateTestPattern_ConnectionProperties(ID2D1DeviceContext2* ctx)
 	}
 
     bool HDR_On = CheckHDR_On();
-
-	if (!HDR_On)
-    {
-        text << L"\n\nBefore starting tests, make sure \"HDR and Advanced color\"";
-        text << L"\n is enabled in the Display settings panel.";
-    }
 
 	if ( HDR_On )
 	{
@@ -4001,15 +3996,20 @@ void Game::Render()
 
     ctx->BeginDraw();
 
-    ctx->PushLayer(D2D1::LayerParameters1(
-        D2D1::InfiniteRect(),
-        nullptr,
-        D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
-        D2D1::IdentityMatrix(),
-        0.2f,
-        nullptr,
-        D2D1_LAYER_OPTIONS1_NONE),
-        nullptr);
+	if (m_useSdrSignaling)
+	{
+		float sdrColorScaleFactor = D2D1_SCENE_REFERRED_SDR_WHITE_LEVEL / m_outputDesc.MaxLuminance;
+
+		ctx->PushLayer(D2D1::LayerParameters1(
+			D2D1::InfiniteRect(),
+			nullptr,
+			D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+			D2D1::IdentityMatrix(),
+			sdrColorScaleFactor,
+			nullptr,
+			D2D1_LAYER_OPTIONS1_NONE),
+			nullptr);
+	}
 
     // Do test pattern-specific rendering here.
     // RenderD2D() handles all operations that are common to all test patterns:
@@ -4147,7 +4147,10 @@ void Game::Render()
         break;
     }
 
-	ctx->PopLayer();
+	if (m_useSdrSignaling)
+	{
+		ctx->PopLayer();
+	}
 
     // Ignore D2DERR_RECREATE_TARGET here. This error indicates that the device
     // is lost. It will be handled during the next call to Present.
@@ -4259,6 +4262,15 @@ void Game::GetDefaultSize(int& width, int& height) const
 {
     width = 1280;
     height = 720;
+}
+
+// For testing purposes only: use display-referred signaling (0 to 1 numeric range) output.
+// Allows the test patterns to function when outputting to an SDR display or one that doesn't use scene-referred luminance.
+// Uses the reported maximum luminance from DXGI as the scaling factor.
+// NOTE: You must manually set the backlight to maximum to match the reported max luminance value; this app doesn't control the backlight.
+void Game::SetSdrSignalingMode(bool mode)
+{
+    m_useSdrSignaling = mode;
 }
 #pragma endregion
 

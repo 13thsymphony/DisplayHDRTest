@@ -29,7 +29,7 @@ SYSTEMTIME GetExpiryTime();
 LONG g_wndStyle = WS_OVERLAPPEDWINDOW;
 RECT g_wndRect = {};
 bool g_fullscreen = false;
-const PWSTR g_appTitle = L"VESA DisplayHDR Compliance Tests";
+const PWSTR g_appTitle = L"VESA DisplayHDR Compliance Tests - SDR Signaling Test";
 
 // Indicates to hybrid graphics systems to prefer the discrete part by default
 extern "C"
@@ -133,6 +133,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         GetClientRect(hwnd, &rc);
 
         g_game->Initialize(hwnd, rc.right - rc.left, rc.bottom - rc.top);
+        g_game->SetSdrSignalingMode(true);
 
         // TODO: When debugging it can be useful to comment this out and start in windowed mode.
         // After the window is created, set to fullscreen windowed. Don't do this at window

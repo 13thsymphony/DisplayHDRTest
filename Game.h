@@ -140,6 +140,7 @@ public:
 
     // Properties
     void GetDefaultSize(int& width, int& height) const;
+    void SetSdrSignalingMode(bool mode);
 
     // Test pattern control
     void SetTestPattern(TestPattern testPattern);
@@ -271,7 +272,7 @@ private:
     bool                                                    m_dxgiColorInfoStale;
 	DXGI_HDR_METADATA_HDR10									m_Metadata;
 	ColorGamut												m_MetadataGamut;
-
+    bool                                                    m_useSdrSignaling;
 
     // TODO: integrate this with the other test resources
     std::map<TestPattern, TestPatternResources>             m_testPatternResources;
