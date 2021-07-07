@@ -4266,7 +4266,7 @@ void Game::GetDefaultSize(int& width, int& height) const
 
 // For testing purposes only: use display-referred signaling (0 to 1 numeric range) output.
 // Allows the test patterns to function when outputting to an SDR display or one that doesn't use scene-referred luminance.
-// Uses the reported maximum luminance from DXGI as the scaling factor.
+// Maps from [DXGI min luminance, DXGI max luminance] to [0, 1] range.
 // NOTE: You must manually set the backlight to maximum to match the reported max luminance value; this app doesn't control the backlight.
 void Game::SetSdrSignalingMode(bool mode)
 {
